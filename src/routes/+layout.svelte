@@ -15,7 +15,7 @@
       <span id="siteTitle">MattManzi<span id="dotCom">.com</span></span>
     </a>
   </span>
-  <nav id="navLinks">
+  <nav id="navigationLinks">
     {#each sections as section (section.destination)}
       <a class="layoutLink" href="{section.destination}">
         <span class:currentPage="{sectionUri === section.destination}"
@@ -56,11 +56,13 @@
 
   #siteTitleWrapper :global(.siteTitleLink) {
     color: inherit;
-  }
-
-  #siteTitle {
     font-size: 3em;
     font-weight: 300;
+    text-decoration: none;
+  }
+
+  #siteTitleWrapper :global(.siteTitleLink):hover {
+    opacity: 1;
   }
 
   #siteTitle > #dotCom {
@@ -79,7 +81,7 @@
     border-radius: 0;
   }
 
-  #navLinks {
+  #navigationLinks {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -93,15 +95,15 @@
 
     font-size: 1.25em;
     color: inherit;
+    text-decoration: none;
   }
 
   header :global(.layoutLink:hover),
   footer :global(.layoutLink:hover) {
-    color: gray;
     text-decoration: underline;
   }
 
-  .currentPage {
+  a > span.currentPage {
     text-decoration: underline !important;
   }
 
@@ -121,12 +123,8 @@
     cursor: pointer;
   }
 
-  .socialLink:hover {
-    opacity: 0.5;
-  }
-
   .socialLink img {
-    height: 32px;
+    height: 2rem;
   }
 
   footer {
@@ -145,7 +143,7 @@
 
   /* Extra tall and skinny screens (i.e. smartphones) */
   @media screen and (max-aspect-ratio: 767/1024) {
-    #navLinks {
+    #navigationLinks {
       justify-content: space-around;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;

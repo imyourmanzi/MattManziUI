@@ -11,3 +11,21 @@ export type Section = {
    */
   destination: string;
 };
+
+/**
+ * Data needed to display a social link at the bottom of the site layout.
+ */
+export type SocialLink = {
+  /**
+   * Name of the icon asset in **\/static** to display for the link
+   */
+  imgResource: string;
+  /**
+   * Alt text for the link icon
+   */
+  imgAlt: string;
+  /**
+   * Full URL where the link directs to
+   */
+  url: string;
+};

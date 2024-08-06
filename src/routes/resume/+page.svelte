@@ -219,16 +219,15 @@
 
 <div id="resumeContainer" class="container">
   <!-- download box -->
-  <div id="downloadContainer" class="hanging">
+  <div id="resumeDownloadContainer">
     <a
-      class="customLink"
+      id="resumeDownloadLink"
       href="{`docs/${resume.name}.${resume.version}.pdf`}"
       target="_blank"
     >
       <!-- no space between image and text to avoid awkward underline -->
       <i class="fas fa-file-download"></i>
-      <span style="text-decoration: none"></span>
-      <span class="full">Download PDF</span>
+      <span class="wideScreensOnly">Download PDF</span>
     </a>
   </div>
   <!-- resume header -->
@@ -237,7 +236,7 @@
     <a href="{`mailto:${resume.email}`}">{resume.email}</a>
   </div>
   <!-- profile header -->
-  <button class="sectionButton" on:click="{toggleShowSection('profile')}">
+  <button class="resumeSectionHeader" on:click="{toggleShowSection('profile')}">
     {#if openSections.indexOf('profile') === -1}
       <i class="fas fa-plus"></i>
     {:else}
@@ -251,7 +250,7 @@
     <p>{resume.profile.text}</p>
   {/if}
   <!-- tech skills header -->
-  <button class="sectionButton" on:click="{toggleShowSection('skills')}">
+  <button class="resumeSectionHeader" on:click="{toggleShowSection('skills')}">
     {#if openSections.indexOf('skills') === -1}
       <i class="fas fa-plus"></i>
     {:else}
@@ -265,16 +264,19 @@
     {#each resume.skills as skill (skill.subset)}
       <div class="skill">
         <div>
-          <p class="typeName"><em>{skill.subset}:</em></p>
+          <p class="skillHeading"><em>{skill.subset}:</em></p>
         </div>
-        <div class="scrollable">
+        <div class="skillList">
           <p>{skill.values.join(', ')}</p>
         </div>
       </div>
     {/each}
   {/if}
   <!-- industry experience header -->
-  <button class="sectionButton" on:click="{toggleShowSection('industryExperience')}">
+  <button
+    class="resumeSectionHeader"
+    on:click="{toggleShowSection('industryExperience')}"
+  >
     {#if openSections.indexOf('industryExperience') === -1}
       <i class="fas fa-plus"></i>
     {:else}
@@ -287,7 +289,7 @@
   {#if openSections.indexOf('industryExperience') !== -1}
     {#each resume.experience as exp (exp.employerName)}
       <div class="experience">
-        <div class="detailLine">
+        <div class="experienceDetailLine">
           <p>
             <strong>{exp.title}</strong>{#if exp.employerName}<span
                 style="font-style: italic;"
@@ -309,7 +311,10 @@
     {/each}
   {/if}
   <!-- additional experience header -->
-  <button class="sectionButton" on:click="{toggleShowSection('additionalExperience')}">
+  <button
+    class="resumeSectionHeader"
+    on:click="{toggleShowSection('additionalExperience')}"
+  >
     {#if openSections.indexOf('additionalExperience') === -1}
       <i class="fas fa-plus"></i>
     {:else}
@@ -322,7 +327,7 @@
   {#if openSections.indexOf('additionalExperience') !== -1}
     {#each resume.additionalExperience as exp (exp.employerName)}
       <div class="experience">
-        <div class="detailLine">
+        <div class="experienceDetailLine">
           <p>
             <strong>{exp.title}</strong>{#if exp.employerName}<span
                 style="font-style: italic;"
@@ -341,7 +346,7 @@
     {/each}
   {/if}
   <!-- projects header -->
-  <button class="sectionButton" on:click="{toggleShowSection('projects')}">
+  <button class="resumeSectionHeader" on:click="{toggleShowSection('projects')}">
     {#if openSections.indexOf('projects') === -1}
       <i class="fas fa-plus"></i>
     {:else}
@@ -354,7 +359,7 @@
   {#if openSections.indexOf('projects') !== -1}
     {#each resume.projects as proj (proj.name)}
       <div class="project">
-        <div class="detailLine">
+        <div class="experienceDetailLine">
           <p>
             <strong>{proj.name}</strong>{proj.organization
               ? ', ' + proj.organization
@@ -371,7 +376,7 @@
     {/each}
   {/if}
   <!-- education header -->
-  <button class="sectionButton" on:click="{toggleShowSection('education')}">
+  <button class="resumeSectionHeader" on:click="{toggleShowSection('education')}">
     {#if openSections.indexOf('education') === -1}
       <i class="fas fa-plus"></i>
     {:else}
@@ -384,7 +389,7 @@
   {#if openSections.indexOf('education') !== -1}
     {#each resume.education as edu (edu.schoolName)}
       <div class="education">
-        <div class="detailLine">
+        <div class="experienceDetailLine">
           <p><strong>{edu.schoolName}</strong>, {edu.location}</p>
           <p>
             <em
@@ -396,7 +401,7 @@
             >
           </p>
         </div>
-        <div class="detailLine">
+        <div class="experienceDetailLine">
           <p>{edu.major}</p>
         </div>
         {#if edu.honors.length}
@@ -416,14 +421,26 @@
     padding-bottom: 0;
   }
 
-  #downloadContainer {
+  #resumeDownloadContainer {
     width: fit-content;
+    margin-left: auto;
+    padding: 0.4em;
+
+    text-align: center;
+
+    border: 1px solid gray;
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #0f0f0f;
   }
 
-  h1 {
-    margin-bottom: 0;
+  #resumeDownloadLink {
+    text-decoration: none;
+  }
 
-    font-weight: 400;
+  #resumeDownloadLink > span {
+    text-decoration: underline;
   }
 
   #nameplate {
@@ -442,18 +459,18 @@
     text-decoration: underline;
   }
 
-  p {
+  #resumeContainer p {
     margin: 0;
 
     padding-left: 2em;
   }
 
-  ul {
+  #resumeContainer ul {
     margin-top: 0.5em;
     padding-left: 5em;
   }
 
-  .sectionButton {
+  .resumeSectionHeader {
     width: 100%;
     margin-bottom: 0em;
     margin-top: 0.7em;
@@ -463,8 +480,6 @@
     background: none;
 
     text-align: left;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 400;
     font-size: 24px;
     text-transform: uppercase;
 
@@ -475,14 +490,14 @@
     margin-top: 2px;
   }
 
-  .fa-plus,
-  .fa-minus {
+  .resumeSectionHeader > .fa-plus,
+  .resumeSectionHeader > .fa-minus {
     transform: translateY(-2.5px);
 
     font-size: 0.65em;
   }
 
-  .detailLine {
+  .experienceDetailLine {
     display: flex;
     justify-content: space-between;
     padding-right: 0.3em;
@@ -493,16 +508,16 @@
     justify-content: flex-start;
   }
 
-  .skill .typeName {
+  .skill .skillHeading {
     width: 10em;
   }
 
-  .skill .scrollable {
+  .skill .skillList {
     white-space: normal;
     overflow: auto;
   }
 
-  .skill .scrollable p {
+  .skill .skillList p {
     padding: 0;
   }
 
@@ -516,7 +531,7 @@
   }
 
   @media screen and (max-aspect-ratio: 767/1024) {
-    .skill .scrollable {
+    .skill .skillList {
       height: 2.25em;
 
       white-space: nowrap;
@@ -525,7 +540,11 @@
   }
 
   @media screen and (prefers-color-scheme: light) {
-    .sectionButton {
+    #resumeDownloadContainer {
+      background-color: #ececec;
+    }
+
+    .resumeSectionHeader {
       color: #011f3a;
     }
   }
