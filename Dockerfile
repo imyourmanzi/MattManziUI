@@ -1,13 +1,11 @@
 ARG NODE_VERSION="lts"
 
+## MARK: Build
 FROM node:${NODE_VERSION}-alpine AS build
 WORKDIR /app
 
-## MARK: Install deps
 COPY package*.json .
 RUN npm ci
-
-## MARK: Build app
 
 # raise memory limit for Rollup:
 # - https://github.com/sveltejs/kit/discussions/7989
@@ -22,10 +20,15 @@ COPY static static
 
 RUN npm run build
 
+# MARK: Web Server
 FROM nginxinc/nginx-unprivileged:alpine-slim AS server
 
 LABEL org.opencontainers.image.source=https://github.com/imyourmanzi/mattmanzi.com
 LABEL org.opencontainers.image.description="Container image for mattmanzi.com"
+
+# use custom nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN rm -f /etc/nginx/conf.d/*
 
 # bring over the production assets
 COPY --from=build /app/build /usr/share/nginx/html/

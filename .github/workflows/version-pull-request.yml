@@ -6,7 +6,9 @@ on:
     paths:
       - 'src/**'
       - 'package*.json'
-      - 'public/**'
+      - 'static/**'
+      - Dockerfile
+      - nginx.conf
 
 jobs:
   check:

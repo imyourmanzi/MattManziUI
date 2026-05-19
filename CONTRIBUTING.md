@@ -36,31 +36,32 @@ To create a production-optimized version of the app, run:
 npm run build
 ```
 
-## Deployment
+## Containerizing
 
-### Deploying Infrastructure with Terraform
+The website can be built for a Docker container and shipped off as needed.
 
-Get Terraform service account GCP credentials:
+> ❗️ **Note**
+>
+> Ensure that your **package.json** version string is what you want so that the image gets tagged correctly!
+
+Build the container image with:
 
 ```sh
-gcloud iam service-accounts keys create key.json --iam-account=terraform@mattmanzi-com.iam.gserviceaccount.com
-mv key.json gcp_credentials.json
-export GOOGLE_APPLICATION_CREDENTIALS=./gcp_credentials.json
+npm run build:docker
 ```
 
-#### Deploying Code to Firebase
+You can run a temporary container for the latest image you build using:
 
 ```sh
-npx firebase login
-npx firebase deploy
+npm run dev:docker
 ```
 
-#### Deploying Code to Servers/Containers
+## Publishing
 
-_This is enabled by [sirv](https://github.com/lukeed/sirv)._
-
-Copy the **/build** folder to the server's web hosting directory and run:
+Once you have the image you want, push it to the container registry:
 
 ```sh
-npm run start
+# don't forget to authenticate as needed first
+docker push ghcr.io/imyourmanzi/mattmanzi.com:latest
+docker push "ghcr.io/imyourmanzi/mattmanzi.com:$(npm pkg get version | tr -d '"')"
 ```

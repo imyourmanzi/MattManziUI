@@ -1,11 +1,12 @@
 {
   "name": "mattmanzi.com",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "private": true,
   "scripts": {
     "build": "svelte-kit sync && vite build",
     "build:docker": "export IMAGE_NAME=\"ghcr.io/imyourmanzi/mattmanzi.com\"; docker build --platform linux/amd64,linux/arm64 --build-arg \"NODE_VERSION=$(cat .nvmrc | tr -cd '[:digit:].')\" -t \"$IMAGE_NAME:$npm_package_version\" -t \"$IMAGE_NAME:latest\" .",
     "dev": "vite dev",
+    "dev:docker": "docker run -p 8080:8080 --rm ghcr.io/imyourmanzi/mattmanzi.com:latest",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
