@@ -61,6 +61,7 @@ npm run dev:docker
 Once you have the image you want, push it to the container registry:
 
 ```sh
+# don't forget to authenticate as needed first
 docker push ghcr.io/imyourmanzi/mattmanzi.com:latest
 docker push "ghcr.io/imyourmanzi/mattmanzi.com:$(npm pkg get version | tr -d '"')"
 ```
