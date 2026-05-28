@@ -27,8 +27,8 @@ LABEL org.opencontainers.image.source=https://github.com/imyourmanzi/mattmanzi.c
 LABEL org.opencontainers.image.description="Container image for mattmanzi.com"
 
 # use custom nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
-RUN rm -f /etc/nginx/conf.d/*
+COPY srv/nginx.conf /etc/nginx/nginx.conf
+COPY srv/site.conf /etc/nginx/conf.d/default.conf
 
 # bring over the production assets
 COPY --from=build /app/build /usr/share/nginx/html/
